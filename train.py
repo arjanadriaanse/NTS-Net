@@ -23,8 +23,17 @@ trainloader = torch.utils.data.DataLoader(trainset, batch_size=BATCH_SIZE,
 testset = dataset.CUB(root='./CUB_200_2011', is_train=False, data_len=None)
 testloader = torch.utils.data.DataLoader(testset, batch_size=BATCH_SIZE,
                                          shuffle=False, num_workers=8, drop_last=False)
+#check sysargs for grid search
+num_arguments = len(sys.argv)
+sizes = None
+if num_arguments > 1:
+    small_size = sys.argv[1]
+    medium_size = sys.argv[2]
+    large_size = sys.argv[3]
+    sizes = [small_size, medium_size, large_size]
+
 # define model
-net = model.attention_net(topN=PROPOSAL_NUM)
+net = model.attention_net(topN=PROPOSAL_NUM, size_values = sizes)
 if resume:
     ckpt = torch.load(resume)
     net.load_state_dict(ckpt['net_state_dict'])
@@ -48,7 +57,7 @@ schedulers = [MultiStepLR(raw_optimizer, milestones=[60, 100], gamma=0.1),
 net = net.cuda()
 net = DataParallel(net)
 
-for epoch in range(start_epoch, 500):
+for epoch in range(start_epoch, 1):
     for scheduler in schedulers:
         scheduler.step()
 

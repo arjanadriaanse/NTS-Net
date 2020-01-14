@@ -48,6 +48,11 @@ train_acc = float(train_correct) / total
 train_loss = train_loss / total
 print('train set loss: {:.3f} and train set acc: {:.3f} total sample: {}'.format(train_loss, train_acc, total))
 
+def write_accuracy():
+open('model_accuracy.txt', 'w').close()
+file = open("model_accuracy.txt")
+file.write(str(test_acc))
+file.close()
 
 # evaluate on test set
 test_loss = 0
@@ -72,3 +77,5 @@ test_loss = test_loss / total
 print('test set loss: {:.3f} and test set acc: {:.3f} total sample: {}'.format(test_loss, test_acc, total))
 
 print('finishing testing')
+
+write_accuracy()
