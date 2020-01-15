@@ -90,7 +90,7 @@ for epoch in range(start_epoch, 1):
         partcls_optimizer.step()
         progress_bar(i, len(trainloader), 'train')
 
-    if epoch % SAVE_FREQ == 0:
+    if 1==1:#epoch % SAVE_FREQ == 0:
         train_loss = 0
         train_correct = 0
         total = 0
