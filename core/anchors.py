@@ -8,14 +8,14 @@ _default_anchors_setting = (
 )
 
 def grid_search_defaults(sizes):
-small_size = int(sizes[0])
-medium_size = int(sizes[1])
-large_size = int(sizes[0])
-return (
+    small_size = int(sizes[0])
+    medium_size = int(sizes[1])
+    large_size = int(sizes[0])
+    return (
     dict(layer='p3', stride=32, size=small_size, scale=[2 ** (1. / 3.), 2 ** (2. / 3.)], aspect_ratio=[0.667, 1, 1.5]),
     dict(layer='p4', stride=64, size=medium_size, scale=[2 ** (1. / 3.), 2 ** (2. / 3.)], aspect_ratio=[0.667, 1, 1.5]),
     dict(layer='p5', stride=128, size=large_size, scale=[1, 2 ** (1. / 3.), 2 ** (2. / 3.)], aspect_ratio=[0.667, 1, 1.5]),
-)
+    )
 
 def generate_default_anchor_maps(anchors_setting=None, input_shape=INPUT_SIZE, sizes =None):
     """
