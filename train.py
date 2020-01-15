@@ -6,6 +6,7 @@ from torch.optim.lr_scheduler import MultiStepLR
 from config import BATCH_SIZE, PROPOSAL_NUM, SAVE_FREQ, LR, WD, resume, save_dir
 from core import model, dataset
 from core.utils import init_log, progress_bar
+import sys
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
 start_epoch = 1
