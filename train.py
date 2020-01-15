@@ -159,4 +159,5 @@ for epoch in range(start_epoch, 1):
             'net_state_dict': net_state_dict},
             os.path.join(save_dir, 'model.ckpt'))
 
+print(os.path.join(save_dir, 'model.ckpt'))
 print('finishing training')
