@@ -6,5 +6,5 @@ LR = 0.001
 WD = 1e-4
 SAVE_FREQ = 1
 resume = ''
-test_model = 'model.ckpt'
+test_model = '/gdrive/My Drive/mpr/models/model.ckpt'
 save_dir = '/gdrive/My Drive/mpr/models/'
