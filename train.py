@@ -10,7 +10,7 @@ import sys
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
 start_epoch = 1
-save_dir = os.path.join(save_dir, datetime.now().strftime('%Y%m%d_%H%M%S'))
+#save_dir = os.path.join(save_dir, datetime.now().strftime('%Y%m%d_%H%M%S'))
 if os.path.exists(save_dir):
     raise NameError('model dir exists!')
 os.makedirs(save_dir)
