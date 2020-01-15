@@ -157,6 +157,6 @@ for epoch in range(start_epoch, 1):
             'test_loss': test_loss,
             'test_acc': test_acc,
             'net_state_dict': net_state_dict},
-            "model.ckpt")
+            os.path.join(save_dir, 'model.ckpt'))
 
 print('finishing training')
