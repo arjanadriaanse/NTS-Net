@@ -59,7 +59,7 @@ schedulers = [MultiStepLR(raw_optimizer, milestones=[60, 100], gamma=0.1),
 net = net.cuda()
 net = DataParallel(net)
 
-for epoch in range(start_epoch, 1):
+for epoch in range(start_epoch, 2):
     for scheduler in schedulers:
         scheduler.step()
 
