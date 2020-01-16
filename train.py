@@ -11,9 +11,10 @@ import sys
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
 start_epoch = 1
 #save_dir = os.path.join(save_dir, datetime.now().strftime('%Y%m%d_%H%M%S'))
-#if os.path.exists(save_dir):
-#    raise NameError('model dir exists!')
-os.makedirs(save_dir)
+if os.path.exists(save_dir):
+    raise NameError('model dir exists!')
+else:
+    os.makedirs(save_dir)
 logging = init_log(save_dir)
 _print = logging.info
 
@@ -158,6 +159,6 @@ for epoch in range(start_epoch, 1):
             'test_loss': test_loss,
             'test_acc': test_acc,
             'net_state_dict': net_state_dict},
-            os.path.join('/gdrive/My Drive/mpr/models/', 'model.ckpt'))
+            '/gdrive/My Drive/mpr/model.ckpt')
         print("saved model")
 print('finishing training')
