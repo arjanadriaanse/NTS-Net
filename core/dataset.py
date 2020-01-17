@@ -3,7 +3,7 @@ import scipy.misc
 import os
 from PIL import Image
 from torchvision import transforms
-#from config import INPUT_SIZE
+from config import INPUT_SIZE
 
 
 class CUB():
