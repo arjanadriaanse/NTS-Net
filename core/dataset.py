@@ -22,16 +22,16 @@ class CUB():
         train_test_list = []
         for line in train_val_file:
             train_test_list.append(int(line[:-1].split(' ')[-1]))
-        sparrow_list = [112 <= x <= 132 for x in label_list] 
+        sparrow_list = [112 <= x <= 132 for x in label_list]
         train_file_list = [x for i, x, s in zip(train_test_list, img_name_list, sparrow_list) if i and s]
         test_file_list = [x for i, x, s in zip(train_test_list, img_name_list, sparrow_list) if not i and s]
         if self.is_train:
-            self.train_img = [scipy.misc.imread(os.path.join(self.root, 'images', train_file)) for train_file, s in
-                              zip(train_file_list[:data_len], sparrow_list[:data_len]) if s]
+            self.train_img = [scipy.misc.imread(os.path.join(self.root, 'images', train_file)) for train_file in
+                              train_file_list[:data_len]]
             self.train_label = [x for i, x, s in zip(train_test_list, label_list, sparrow_list) if i and s][:data_len]
         if not self.is_train:
-            self.test_img = [scipy.misc.imread(os.path.join(self.root, 'images', test_file)) for test_file, s in
-                             zip(test_file_list[:data_len], sparrow_list[:data_len]) if s]
+            self.test_img = [scipy.misc.imread(os.path.join(self.root, 'images', test_file)) for test_file in
+                             test_file_list[:data_len]]
             self.test_label = [x for i, x, s in zip(train_test_list, label_list, sparrow_list) if not i and s][:data_len]
 
     def __getitem__(self, index):
