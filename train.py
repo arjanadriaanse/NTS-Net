@@ -155,5 +155,5 @@ print('finishing training')
 
 #writing of accuracy to accuracies.txt
 acc_file = open(os.path.join(save_dir, "accuracies.txt"),"w")
-acc_file.write(final_test_acc)
+acc_file.write(str(final_test_acc))
 acc_file.close()
