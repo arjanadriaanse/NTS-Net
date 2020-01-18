@@ -38,14 +38,14 @@ class attention_net(nn.Module):
         self.pretrained_model.fc = nn.Linear(512 * 4, 200)
         self.proposal_net = ProposalNet()
         self.topN = topN
-        self.concat_net = nn.Linear(2048 * (CAT_NUM + 1), 200)
+        self.concat_net = nn.Linear(2048 * (CAT_NUM), 200) #cat_num+1
         self.partcls_net = nn.Linear(512 * 4, 200)
         _, edge_anchors, _ = generate_default_anchor_maps()
         self.pad_side = 224
         self.edge_anchors = (edge_anchors + 224).astype(np.int)
 
     def forward(self, x):
-        resnet_out, rpn_feature, feature = self.pretrained_model(x)
+        resnet_out, rpn_feature, _ = self.pretrained_model(x)
         x_pad = F.pad(x, (self.pad_side, self.pad_side, self.pad_side, self.pad_side), mode='constant', value=0)
         batch = x.size(0)
         # we will reshape rpn to shape: batch * nb_anchor
@@ -70,8 +70,9 @@ class attention_net(nn.Module):
         part_feature = part_feature[:, :CAT_NUM, ...].contiguous()
         part_feature = part_feature.view(batch, -1)
         # concat_logits have the shape: B*200
-        concat_out = torch.cat([part_feature, feature], dim=1)
-        concat_logits = self.concat_net(concat_out)
+        #Here we make the main changes to no include the main image feature, we do not add it to the mean feature tensor  like in the original
+        #concat_out = torch.cat([part_feature, feature], dim=1)
+        concat_logits = self.concat_net(part_feature)
         raw_logits = resnet_out
         # part_logits have the shape: B*N*200
         part_logits = self.partcls_net(part_features).view(batch, self.topN, -1)
