@@ -155,6 +155,7 @@ print('finishing training')
 
 #writing of accuracy to accuracies.txt
 if not (os.path.exists(accuracy_text_location)):
+    print("creating relevant directories")
     os.makedirs(accuracy_text_location)
 acc_file = open(os.path.join(accuracy_text_location, "accuracies.txt"),"w+")
 acc_file.write(str(final_test_acc))
