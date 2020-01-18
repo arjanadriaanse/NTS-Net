@@ -32,8 +32,6 @@ for small_scale in small_sizes_grid:
 			print("training : " + str(small_scale) + ' ' + str(medium_scale) + ' ' + str(large_scale))
 			#Training for current config
 			os.system('python3 train.py ' + str(small_scale) + ' ' + str(medium_scale) + ' ' + str(large_scale))
-			print("done training")
-			#Test for currently generated model
 			model_accuracy = read_accuracy()
 			write_accuracy_for_config(small_scale, medium_scale, large_scale, model_accuracy)
 			if (model_accuracy > best_accuracy):
