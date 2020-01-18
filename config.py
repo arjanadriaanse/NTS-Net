@@ -7,5 +7,6 @@ WD = 1e-4
 SAVE_FREQ = 1
 resume = ''
 test_model = 'model.ckpt'
-save_dir = '/gdrive/My Drive/mpr/models/'
-experimentCSV = '/gdrive/My Drive/mpr/models/resultnotTotalImage.csv'
+save_dir = '/gdrive/My Drive/mpr/models/noTotalImageModels'
+experimentCSV = '/gdrive/My Drive/mpr/models/noTotalImageModels/resultnotTotalImage.csv'
+
