@@ -1,4 +1,4 @@
-BATCH_SIZE = 16
+BATCH_SIZE = 2
 PROPOSAL_NUM = 6
 CAT_NUM = 4
 INPUT_SIZE = (448, 448)  # (w, h)
@@ -8,3 +8,4 @@ SAVE_FREQ = 1
 resume = ''
 test_model = 'model.ckpt'
 save_dir = '/gdrive/My Drive/mpr/models/'
+experimentCSV = '/gdrive/My Drive/mpr/models/resultnotTotalImage.csv'

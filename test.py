@@ -2,7 +2,7 @@ import os
 from torch.autograd import Variable
 import torch.utils.data
 from torch.nn import DataParallel
-from config import BATCH_SIZE, PROPOSAL_NUM, test_model
+from config import BATCH_SIZE, PROPOSAL_NUM, test_model, experimentCSV
 from core import model, dataset
 from core.utils import progress_bar
 
@@ -29,6 +29,7 @@ train_loss = 0
 train_correct = 0
 total = 0
 net.eval()
+correct_vector = np.array([])
 
 for i, data in enumerate(trainloader):
     with torch.no_grad():
@@ -41,18 +42,24 @@ for i, data in enumerate(trainloader):
         _, concat_predict = torch.max(concat_logits, 1)
         total += batch_size
         train_correct += torch.sum(concat_predict.data == label.data)
+        correct_tensor = concat_predict.data == label.data
+        correct_vector_cpu = correct_tensor.cpu().numpy()
+        correct_vector = np.concatenate([correct_vector, correct_vector_cpu])
         train_loss += concat_loss.item() * batch_size
         progress_bar(i, len(trainloader), 'eval on train set')
 
 train_acc = float(train_correct) / total
 train_loss = train_loss / total
 print('train set loss: {:.3f} and train set acc: {:.3f} total sample: {}'.format(train_loss, train_acc, total))
-
+print(correct_vector)
+#could save the result of the training set here, however we are not interested in that currently
 
 # evaluate on test set
 test_loss = 0
 test_correct = 0
 total = 0
+correct_vector = np.array([])
+
 for i, data in enumerate(testloader):
     with torch.no_grad():
         img, label = data[0].cuda(), data[1].cuda()
@@ -64,11 +71,16 @@ for i, data in enumerate(testloader):
         _, concat_predict = torch.max(concat_logits, 1)
         total += batch_size
         test_correct += torch.sum(concat_predict.data == label.data)
+        correct_tensor = concat_predict.data == label.data
+        correct_vector_cpu = correct_tensor.cpu().numpy()
+        correct_vector = np.concatenate([correct_vector, correct_vector_cpu])
         test_loss += concat_loss.item() * batch_size
         progress_bar(i, len(testloader), 'eval on test set')
 
 test_acc = float(test_correct) / total
 test_loss = test_loss / total
 print('test set loss: {:.3f} and test set acc: {:.3f} total sample: {}'.format(test_loss, test_acc, total))
+print(correct_vector)
 
+np.savetxt(experimentCSV, correct_vector, delimiter=",")
 print('finishing testing')
