@@ -6,6 +6,9 @@ from torch.optim.lr_scheduler import MultiStepLR
 from config import BATCH_SIZE, PROPOSAL_NUM, SAVE_FREQ, LR, WD, resume, save_dir, accuracy_text_location
 from core import model, dataset
 from core.utils import init_log, progress_bar
+import sys
+
+
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
 start_epoch = 1
@@ -23,7 +26,17 @@ trainloader = torch.utils.data.DataLoader(trainset, batch_size=BATCH_SIZE,
 testset = dataset.CUB(root='./CUB_200_2011', is_train=False, data_len=None)
 testloader = torch.utils.data.DataLoader(testset, batch_size=BATCH_SIZE,
                                          shuffle=False, num_workers=8, drop_last=False)
+
+num_arguments = len(sys.argv)
+sizes = None
+if num_arguments > 1:
+    small_size = sys.argv[1]
+    medium_size = sys.argv[2]
+    large_size = sys.argv[3]
+    sizes = [small_size, medium_size, large_size]
+    
 # define model
+net = model.attention_net(topN=PROPOSAL_NUM, size_values = sizes)
 net = model.attention_net(topN=PROPOSAL_NUM)
 if resume:
     ckpt = torch.load(resume)

@@ -7,6 +7,15 @@ _default_anchors_setting = (
     dict(layer='p5', stride=128, size=216, scale=[1, 2 ** (1. / 3.), 2 ** (2. / 3.)], aspect_ratio=[0.667, 1, 1.5]),
 )
 
+def grid_search_defaults(sizes):
+    small_size = int(sizes[0])
+    medium_size = int(sizes[1])
+    large_size = int(sizes[0])
+    return (
+    dict(layer='p3', stride=32, size=small_size, scale=[2 ** (1. / 3.), 2 ** (2. / 3.)], aspect_ratio=[0.667, 1, 1.5]),
+    dict(layer='p4', stride=64, size=medium_size, scale=[2 ** (1. / 3.), 2 ** (2. / 3.)], aspect_ratio=[0.667, 1, 1.5]),
+    dict(layer='p5', stride=128, size=large_size, scale=[1, 2 ** (1. / 3.), 2 ** (2. / 3.)], aspect_ratio=[0.667, 1, 1.5]),
+    )
 
 def generate_default_anchor_maps(anchors_setting=None, input_shape=INPUT_SIZE):
     """
@@ -19,7 +28,10 @@ def generate_default_anchor_maps(anchors_setting=None, input_shape=INPUT_SIZE):
              anchor_area: # anchors * 1 (area)
     """
     if anchors_setting is None:
-        anchors_setting = _default_anchors_setting
+        if sizes is None:
+            anchors_setting = _default_anchors_setting
+        else:
+            anchors_setting = grid_search_defaults(sizes)
 
     center_anchors = np.zeros((0, 4), dtype=np.float32)
     edge_anchors = np.zeros((0, 4), dtype=np.float32)
