@@ -63,12 +63,16 @@ for i, data in enumerate(testloader):
         # calculate accuracy
         _, concat_predict = torch.max(concat_logits, 1)
         total += batch_size
+        #hier kun je per batch de resultaten vinden
+        #converteren naar 1 if right 0 if fout
+        #grote numpy vector bouwen
         test_correct += torch.sum(concat_predict.data == label.data)
         test_loss += concat_loss.item() * batch_size
         progress_bar(i, len(testloader), 'eval on test set')
 
 test_acc = float(test_correct) / total
 test_loss = test_loss / total
+#numpy vector opslaan, als csv. Importeren in m'n r code van data mining voor de mcnemar test
 print('test set loss: {:.3f} and test set acc: {:.3f} total sample: {}'.format(test_loss, test_acc, total))
 
 print('finishing testing')
