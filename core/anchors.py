@@ -17,7 +17,7 @@ def grid_search_defaults(sizes):
     dict(layer='p5', stride=128, size=large_size, scale=[1, 2 ** (1. / 3.), 2 ** (2. / 3.)], aspect_ratio=[0.667, 1, 1.5]),
     )
 
-def generate_default_anchor_maps(anchors_setting=None, input_shape=INPUT_SIZE):
+def generate_default_anchor_maps(anchors_setting=None, input_shape=INPUT_SIZE, sizes =None):
     """
     generate default anchor
 
