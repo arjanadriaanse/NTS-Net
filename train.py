@@ -48,7 +48,9 @@ schedulers = [MultiStepLR(raw_optimizer, milestones=[60, 100], gamma=0.1),
 net = net.cuda()
 net = DataParallel(net)
 
-for epoch in range(start_epoch, 5):
+final_test_acc = 0.0f
+
+for epoch in range(start_epoch, 2):
     for scheduler in schedulers:
         scheduler.step()
 
@@ -148,5 +150,10 @@ for epoch in range(start_epoch, 5):
             'test_acc': test_acc,
             'net_state_dict': net_state_dict},
             os.path.join(save_dir, '%03d.ckpt' % epoch))
-
+        final_test_acc = test_acc
 print('finishing training')
+
+#writing of accuracy to accuracies.txt
+acc_file = open(os.path.join(save_dir, "accuracies.txt"),"w")
+acc_file.write(final_test_acc)
+acc_file.close()
