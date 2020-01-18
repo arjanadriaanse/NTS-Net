@@ -8,3 +8,4 @@ SAVE_FREQ = 1
 resume = ''
 test_model = 'model.ckpt'
 save_dir = '/gdrive/My Drive/mpr/models/'
+accuracy_text_location = '/gdrive/My Drive/mpr/accuracies/'

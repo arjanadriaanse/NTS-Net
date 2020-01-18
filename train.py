@@ -3,7 +3,7 @@ import torch.utils.data
 from torch.nn import DataParallel
 from datetime import datetime
 from torch.optim.lr_scheduler import MultiStepLR
-from config import BATCH_SIZE, PROPOSAL_NUM, SAVE_FREQ, LR, WD, resume, save_dir
+from config import BATCH_SIZE, PROPOSAL_NUM, SAVE_FREQ, LR, WD, resume, save_dir, accuracy_text_location
 from core import model, dataset
 from core.utils import init_log, progress_bar
 
@@ -154,6 +154,6 @@ for epoch in range(start_epoch, 2):
 print('finishing training')
 
 #writing of accuracy to accuracies.txt
-acc_file = open(os.path.join(save_dir, "accuracies.txt"),"w")
+acc_file = open(os.path.join(accuracy_text_location, "accuracies.txt"),"w")
 acc_file.write(str(final_test_acc))
 acc_file.close()
