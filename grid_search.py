@@ -48,7 +48,7 @@ for small_scale in small_sizes_grid:
     for medium_scale in medium_sizes_grid:
         for large_scale in large_sizes_grid:
             checkpoint = read_check_point()
-            print("current checkpoint " + str(current))
+            print("current checkpoint " + str(current_run))
             if(checkpoint <= current_run):
                 print("training : " + str(small_scale) + ' ' + str(medium_scale) + ' ' + str(large_scale))
                 #Training for current config
