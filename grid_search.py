@@ -24,13 +24,13 @@ def write_accuracy_for_config(small, medium, large, accuracy):
     file.close
     
 def save_check_point(checkpoint):
-    open(os.path.join(accuracy_text_location, "checkpoint.txt"), 'w').close()
-    file = open(os.path.join(accuracy_text_location, "checkpoint.txt"), 'w')
+    open(os.path.join(accuracy_text_location, "checkpoint.txt"), 'w+').close()
+    file = open(os.path.join(accuracy_text_location, "checkpoint.txt"), 'w+')
     file.write(str(checkpoint))
     file.close
     
 def read_check_point():
-    file = open(os.path.join(accuracy_text_location, "checkpoint.txt"),"r")
+    file = open(os.path.join(accuracy_text_location, "checkpoint.txt"),"r+")
     checkpoint = file.read()
     if checkpoint == "":
         return 0
