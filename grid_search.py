@@ -43,8 +43,8 @@ if(read_check_point()== 27):
     open(os.path.join(accuracy_text_location, "all_accuracies.txt"), 'w').close()
 current_run = 0
 for small_scale in small_sizes_grid:
-	for medium_scale in medium_sizes_grid:
-		for large_scale in large_sizes_grid:
+    for medium_scale in medium_sizes_grid:
+        for large_scale in large_sizes_grid:
             checkpoint = read_check_point()
             if(checkpoint <= current_run):
                 print("training : " + str(small_scale) + ' ' + str(medium_scale) + ' ' + str(large_scale))
