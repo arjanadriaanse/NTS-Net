@@ -63,7 +63,7 @@ net = DataParallel(net)
 
 final_test_acc = 0.0
 
-for epoch in range(start_epoch, 2):
+for epoch in range(start_epoch, 21):
     for scheduler in schedulers:
         scheduler.step()
 
