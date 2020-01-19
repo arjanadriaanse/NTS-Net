@@ -30,6 +30,8 @@ def save_check_point(checkpoint):
     file.close
     
 def read_check_point():
+    if not(os.path.exists(os.path.join(accuracy_text_location, "checkpoint.txt"))):
+        open(os.path.join(accuracy_text_location, "checkpoint.txt"),"w+").close()
     file = open(os.path.join(accuracy_text_location, "checkpoint.txt"),"r+")
     checkpoint = file.read()
     if checkpoint == "":
