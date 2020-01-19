@@ -39,7 +39,8 @@ def read_check_point():
     
     
 #Call train with all possible combinations of anchors
-open(os.path.join(accuracy_text_location, "all_accuracies.txt"), 'w').close()
+if(read_check_point()== 27):
+    open(os.path.join(accuracy_text_location, "all_accuracies.txt"), 'w').close()
 current_run = 0
 for small_scale in small_sizes_grid:
 	for medium_scale in medium_sizes_grid:
