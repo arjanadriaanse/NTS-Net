@@ -4,7 +4,7 @@ from torch.nn import DataParallel
 from datetime import datetime
 from torch.optim.lr_scheduler import MultiStepLR
 from config import BATCH_SIZE, PROPOSAL_NUM, SAVE_FREQ, LR, WD, resume, save_dir
-from core import model, dataset
+from core import model, dataset, loss # added ,loss
 from core.utils import init_log, progress_bar
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
@@ -29,7 +29,7 @@ if resume:
     ckpt = torch.load(resume)
     net.load_state_dict(ckpt['net_state_dict'])
     start_epoch = ckpt['epoch'] + 1
-creterion = torch.nn.CrossEntropyLoss()
+creterion = loss.CrossEntropyLoss()
 
 # define optimizers
 raw_parameters = list(net.pretrained_model.parameters())
