@@ -3,6 +3,8 @@ from torch import autograd, nn
 from torch.nn.modules import loss
 import torch.nn.functional as F
 
+from core import gaussian_kernel
+
 ###
 ### The CrossEntropyLoss from torch.nn.modules.loss.
 ###
@@ -24,7 +26,14 @@ class CrossEntropyLoss(loss._WeightedLoss):
         if size_average is not None or reduce is not None:
             reduction = _Reduction.legacy_get_string(size_average, reduce)
         # return nll_loss(log_softmax(input, 1), target, weight, None, ignore_index, None, reduction)
+        # logsoftmax?
         return F.nll_loss(input, target, weight, None, ignore_index, None, reduction)
+    
+    def correntrophy(self, input, target, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean'):
+        # return nll_loss(log_softmax(input, 1), target, weight, None, ignore_index, None, reduction)
+        # logsoftmax?
+        return F.nll_loss(gaussian_kernel.GaussianSmoothing(input), target, weight, None, ignore_index, None, reduction)
+        
 
 """
 cross_entropy loss function defined in tensor flow
