@@ -50,10 +50,10 @@ class CustomLoss(loss._WeightedLoss):
     def correntrophy(self, input, target, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean'):
         result = []
         for y_true, y_pred in zip(input, output):
-            result.add(forward(y_true, y_pred))
+            result.add(calculate(y_true, y_pred))
         return result
     
-    def forward(y_true, y_pred):
+    def calculate(y_true, y_pred):
         - self.k_sum(self.robust_kernel(y_pred - y_true))
     
     def robust_kernel(tensor, sigma):
