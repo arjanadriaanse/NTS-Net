@@ -50,7 +50,7 @@ class CustomLoss(loss._WeightedLoss):
     def correntrophy(self, input, target, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean'):
         result = []
         for y_true, y_pred in zip(input, target):
-            result.add(calculate(y_true, y_pred))
+            result.append(calculate(y_true, y_pred))
         return result
     
     def calculate(y_true, y_pred):
