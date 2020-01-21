@@ -19,19 +19,31 @@ class CrossEntropyLoss(loss._WeightedLoss):
         return self.cross_entropy(input=input, target=target, weight=self.weight, ignore_index=self.ignore_index, reduction=self.reduction)
     
     ###
-    ### The cross_entropy function based on toch.nn.functional,
+    ### The cross_entropy function from toch.nn.functional,
     ### uses nll_loss from torch.nn.functional, the negative log likelihood function
     ###
     def cross_entropy(self, input, target, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean'):
         if size_average is not None or reduce is not None:
             reduction = _Reduction.legacy_get_string(size_average, reduce)
-        # return nll_loss(log_softmax(input, 1), target, weight, None, ignore_index, None, reduction)
-        return F.nll_loss(input, target, weight, None, ignore_index, None, reduction).exp()
+        return nll_loss(log_softmax(input, 1), target, weight, None, ignore_index, None, reduction)
+        #return F.nll_loss(input, target, weight, None, ignore_index, None, reduction).exp()
+
+class CustomLoss(loss._WeightedLoss):
+    __constants__ = ['weight', 'ignore_index', 'reduction']
     
+    def __init__(self, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean'):
+        super(CustomLoss, self).__init__(weight, size_average, reduce, reduction)
+        self.ignore_index = ignore_index
+
+    def forward(self, input, target):
+        return self.softmax_cross_entropy_with_logits(input=input, target=target, weight=self.weight, ignore_index=self.ignore_index, reduction=self.reduction)
+
     # based on a TensorFlow loss function.
     def softmax_cross_entropy_with_logits(self, input, target, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean'):
         return log_softmax(nll_loss(log_softmax(input, 1), target, weight, None, ignore_index, None, reduction),1)
-    
+
+
+
     """
     def correntrophy(self, input, target, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean'):
         result = []

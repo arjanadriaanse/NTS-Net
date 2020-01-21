@@ -30,7 +30,7 @@ if resume:
     net.load_state_dict(ckpt['net_state_dict'])
     start_epoch = ckpt['epoch'] + 1
 
-creterion = loss.softmax_cross_entropy_with_logits()
+creterion = loss.CustomLoss()
 #creterion = torch.nn.CrossEntropyLoss()
 
 # define optimizers
