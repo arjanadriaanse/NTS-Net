@@ -21,6 +21,8 @@ class CrossEntropyLoss(loss._WeightedLoss):
     ###
     ### The cross_entropy function from toch.nn.functional,
     ### uses nll_loss from torch.nn.functional, the negative log likelihood function
+    ### Using log_softmax in stead of softmax is recommended since log_softmax is numerically more stable.
+    ### from: https://discuss.pytorch.org/t/pytorch-equivalence-to-sparse-softmax-cross-entropy-with-logits-in-tensorflow/18727
     ###
     def cross_entropy(self, input, target, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean'):
         if size_average is not None or reduce is not None:
