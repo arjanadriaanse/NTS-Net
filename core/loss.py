@@ -26,14 +26,32 @@ class CrossEntropyLoss(loss._WeightedLoss):
         if size_average is not None or reduce is not None:
             reduction = _Reduction.legacy_get_string(size_average, reduce)
         # return nll_loss(log_softmax(input, 1), target, weight, None, ignore_index, None, reduction)
-        # logsoftmax?
-        return F.nll_loss(input, target, weight, None, ignore_index, None, reduction)
+        return F.nll_loss(input, target, weight, None, ignore_index, None, reduction).exp()
     
+    """
     def correntrophy(self, input, target, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean'):
-        # return nll_loss(log_softmax(input, 1), target, weight, None, ignore_index, None, reduction)
-        # logsoftmax?
-        return F.nll_loss(gaussian_kernel.GaussianSmoothing(input), target, weight, None, ignore_index, None, reduction)
-        
+        result = []
+        for y_true, y_pred in zip(input, output):
+            result.add(forward(input, output))
+    
+    def forward(y_true, y_pred)
+        - self.k_sum(self.robust_kernel(y_pred - y_true))
+    
+    def robust_kernel(tensor, sigma)
+        return 1 / (sqrt(2 * pi * sigma)) * self.k_exp(-self.k_square(tensor) / (2 * sigma * sigma))
+    
+    def k_square(tensor)
+        return tensor ** 2
+    
+    def k_exp(tensor)
+        return torch.exp(tensor)
+    
+    def k_sum(tensor)
+        return torch.sum(tensor)
+
+creterion = CrossEntropyLoss()
+print(creterion.correntrophy([0,0,0,0],[0,0,0,0])
+"""
 
 """
 cross_entropy loss function defined in tensor flow

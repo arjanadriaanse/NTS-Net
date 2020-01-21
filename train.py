@@ -29,8 +29,8 @@ if resume:
     ckpt = torch.load(resume)
     net.load_state_dict(ckpt['net_state_dict'])
     start_epoch = ckpt['epoch'] + 1
-#creterion = loss.CrossEntropyLoss()
-creterion = torch.nn.CrossEntropyLoss()
+creterion = loss.CrossEntropyLoss()
+#creterion = torch.nn.CrossEntropyLoss()
 
 # define optimizers
 raw_parameters = list(net.pretrained_model.parameters())
