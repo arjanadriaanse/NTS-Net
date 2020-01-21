@@ -28,6 +28,10 @@ class CrossEntropyLoss(loss._WeightedLoss):
         # return nll_loss(log_softmax(input, 1), target, weight, None, ignore_index, None, reduction)
         return F.nll_loss(input, target, weight, None, ignore_index, None, reduction).exp()
     
+    # based on a TensorFlow loss function.
+    def softmax_cross_entropy_with_logits(self, input, target, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean'):
+        return log_softmax(nll_loss(log_softmax(input, 1), target, weight, None, ignore_index, None, reduction),1)
+    
     """
     def correntrophy(self, input, target, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean'):
         result = []
