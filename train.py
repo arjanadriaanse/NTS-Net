@@ -31,7 +31,7 @@ if resume:
     start_epoch = ckpt['epoch'] + 1
 
 #creterion = loss.CrossEntropyLoss()
-creterion = torch.nn.MultiLabelSoftMarginLoss()
+creterion = torch.nn.BCEWithLogitsLoss()
 
 # define optimizers
 raw_parameters = list(net.pretrained_model.parameters())
