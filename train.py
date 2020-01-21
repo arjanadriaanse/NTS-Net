@@ -74,7 +74,8 @@ for epoch in range(start_epoch, 500):
         partcls_loss = creterion(part_logits.view(batch_size * PROPOSAL_NUM, -1),
                                  label.unsqueeze(1).repeat(1, PROPOSAL_NUM).view(-1))
 
-        total_loss = raw_loss + rank_loss + concat_loss + partcls_loss
+        total_loss = (raw_loss + rank_loss + concat_loss + partcls_loss)/4
+        
         total_loss.backward()
         raw_optimizer.step()
         part_optimizer.step()
