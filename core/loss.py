@@ -54,7 +54,7 @@ class CustomLoss(loss._WeightedLoss):
         return result
     
     def calculate(self, y_true, y_pred):
-        - self.k_sum(self.robust_kernel(y_pred - y_true))
+        - self.k_sum(self.robust_kernel(y_pred - y_true, 0.5))
     
     def robust_kernel(self, tensor, sigma):
         return 1 / (sqrt(2 * pi * sigma)) * self.k_exp(-self.k_square(tensor) / (2 * sigma * sigma))
