@@ -5,6 +5,8 @@ import torch.nn.functional as F
 
 from core import gaussian_kernel
 
+import math
+
 ###
 ### The CrossEntropyLoss from torch.nn.modules.loss.
 ###
@@ -57,7 +59,7 @@ class CustomLoss(loss._WeightedLoss):
         - self.k_sum(self.robust_kernel(y_pred - y_true, 0.5))
     
     def robust_kernel(self, tensor, sigma):
-        return 1 / (sqrt(2 * pi * sigma)) * self.k_exp(-self.k_square(tensor) / (2 * sigma * sigma))
+        return 1 / (math.sqrt(2 * math.pi * sigma)) * self.k_exp(-self.k_square(tensor) / (2 * sigma * sigma))
     
     def k_square(self, tensor):
         return tensor ** 2
