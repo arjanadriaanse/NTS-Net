@@ -26,7 +26,6 @@ class CrossEntropyLoss(loss._WeightedLoss):
         if size_average is not None or reduce is not None:
             reduction = _Reduction.legacy_get_string(size_average, reduce)
         return F.nll_loss(F.log_softmax(input, 1), target, weight, None, ignore_index, None, reduction)
-        #return F.nll_loss(input, target, weight, None, ignore_index, None, reduction).exp()
 
 class CustomLoss(loss._WeightedLoss):
     __constants__ = ['weight', 'ignore_index', 'reduction']
@@ -38,9 +37,12 @@ class CustomLoss(loss._WeightedLoss):
     def forward(self, input, target):
         return self.softmax_cross_entropy_with_logits(input=input, target=target, weight=self.weight, ignore_index=self.ignore_index, reduction=self.reduction)
 
-    # based on a TensorFlow loss function.
+    
     def softmax_cross_entropy_with_logits(self, input, target, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean'):
-        return F.log_softmax(F.nll_loss(F.log_softmax(input, 1), target, weight, None, ignore_index, None, reduction))
+        ### Based on a TensorFlow loss function softmax_cross_entropy_with_logits, always 0.
+        return F.log_softmax(F.nll_loss(F.log_softmax(input, 1), target, weight, None, ignore_index, None, reduction), -1)
+        ### Correntrophy loss function, no results higher than 5% accuracy have been recorded.
+        return F.nll_loss(input, target, weight, None, ignore_index, None, reduction).exp()
 
 
 
