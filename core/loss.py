@@ -53,19 +53,19 @@ class CustomLoss(loss._WeightedLoss):
             result.append(self.calculate(y_true, y_pred))
         return result
     
-    def calculate(y_true, y_pred):
+    def calculate(self, y_true, y_pred):
         - self.k_sum(self.robust_kernel(y_pred - y_true))
     
-    def robust_kernel(tensor, sigma):
+    def robust_kernel(self, tensor, sigma):
         return 1 / (sqrt(2 * pi * sigma)) * self.k_exp(-self.k_square(tensor) / (2 * sigma * sigma))
     
-    def k_square(tensor):
+    def k_square(self, tensor):
         return tensor ** 2
     
-    def k_exp(tensor):
+    def k_exp(self, tensor):
         return torch.exp(tensor)
     
-    def k_sum(tensor):
+    def k_sum(self, tensor):
         return torch.sum(tensor)
 
 #creterion = CrossEntropyLoss()
