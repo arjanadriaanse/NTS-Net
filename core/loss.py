@@ -40,7 +40,7 @@ class CustomLoss(loss._WeightedLoss):
 
     # based on a TensorFlow loss function.
     def softmax_cross_entropy_with_logits(self, input, target, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean'):
-        return F.log_softmax(F.nll_loss(F.log_softmax(input, 1), target, weight, None, ignore_index, None, reduction),1)
+        return F.log_softmax(F.nll_loss(F.log_softmax(input, 1), target, weight, None, ignore_index, None, reduction))
 
 
 
