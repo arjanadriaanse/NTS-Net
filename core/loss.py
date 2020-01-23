@@ -49,29 +49,17 @@ class CustomLoss(loss._WeightedLoss):
         ### Correntrophy loss function, no results higher than 5% accuracy have been recorded.
         return F.nll_loss(input, target, weight, None, ignore_index, None, reduction).exp()
 
-    def test(self, input, target, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean'):
-        return F.nll_loss(F.log_softmax(input, 1), target, weight, None, ignore_index, None, reduction)
-
-    def correntrophy(self, input, target, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean'):
-        result = []
-        for y_true, y_pred in zip(input, target):
-            result.append(self.calculate(y_true, y_pred))
-        return result
+    def cross_entropy_softmaxabs(self, input, target, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean'):
+        if size_average is not None or reduce is not None:
+            reduction = _Reduction.legacy_get_string(size_average, reduce)
+        input_mod = torch.abs_(input)
+        return F.nll_loss(F.log_softmax(input_mod, 1), target, weight, size_average, ignore_index, reduce, reduction)
     
-    def calculate(self, y_true, y_pred):
-        - self.k_sum(self.robust_kernel(y_pred - y_true, 0.5))
+    def cross_entropy_taylorsoftmax(self, input, target, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean'):
+        if size_average is not None or reduce is not None:
+            reduction = _Reduction.legacy_get_string(size_average, reduce)
+        input_mod = torch.add_(torch.mul_(torch.exp_(input, 2), 0.5), 1)
+        return F.nll_loss(F.log_softmax(input_mod, 1), target, weight, size_average, ignore_index, reduce, reduction)
     
-    def robust_kernel(self, tensor, sigma):
-        return 1 / (math.sqrt(2 * math.pi * sigma)) * self.k_exp(-self.k_square(tensor) / (2 * sigma * sigma))
-    
-    def k_square(self, tensor):
-        return tensor ** 2
-    
-    def k_exp(self, tensor):
-        return torch.exp(tensor)
-    
-    def k_sum(self, tensor):
-        return torch.sum(tensor)
-
 #creterion = CrossEntropyLoss()
 #print(creterion.correntrophy([0,0,0,0],[0,0,0,0])
