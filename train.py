@@ -30,8 +30,8 @@ if resume:
     net.load_state_dict(ckpt['net_state_dict'])
     start_epoch = ckpt['epoch'] + 1
 
-creterion = loss.CustomLoss()
-#creterion = torch.nn.CrossEntropyLoss()
+#creterion = loss.CustomLoss()
+creterion = torch.nn.CrossEntropyLoss()
 
 # define optimizers
 raw_parameters = list(net.pretrained_model.parameters())
@@ -66,17 +66,19 @@ for epoch in range(start_epoch, 500):
         partcls_optimizer.zero_grad()
 
         raw_logits, concat_logits, part_logits, _, top_n_prob = net(img)
+        
+        raw_loss = creterion(raw_logits, label)
+        concat_loss = creterion(concat_logits, label) # Ic
+        partcls_loss = creterion(part_logits.view(batch_size * PROPOSAL_NUM, -1),
+                                 label.unsqueeze(1).repeat(1, PROPOSAL_NUM).view(-1)) # Is
+        
         part_loss = model.list_loss(part_logits.view(batch_size * PROPOSAL_NUM, -1),
                                     label.unsqueeze(1).repeat(1, PROPOSAL_NUM).view(-1)).view(batch_size, PROPOSAL_NUM)
-        raw_loss = creterion(raw_logits, label)
-        concat_loss = creterion(concat_logits, label)
         rank_loss = model.ranking_loss(top_n_prob, part_loss)
-        partcls_loss = creterion(part_logits.view(batch_size * PROPOSAL_NUM, -1),
-                                 label.unsqueeze(1).repeat(1, PROPOSAL_NUM).view(-1))
         
         #The model increases in accuracy less rapidly without the normalisation.
         #total_loss = (raw_loss + rank_loss + concat_loss + partcls_loss)/4
-        total_loss = raw_loss + rank_loss + concat_loss + partcls_loss
+        total_loss = raw_loss + (0 * concat_loss) + rank_loss + (0 * partcls_loss)
         
         total_loss.backward()
         raw_optimizer.step()
