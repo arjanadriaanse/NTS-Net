@@ -78,7 +78,7 @@ for epoch in range(start_epoch, 500):
         
         #The model increases in accuracy less rapidly without the normalisation.
         #total_loss = (raw_loss + rank_loss + concat_loss + partcls_loss)/4
-        total_loss = raw_loss + (0 * concat_loss) + rank_loss + (0 * partcls_loss)
+        total_loss = raw_loss + (0 * concat_loss) + rank_loss + (2 * partcls_loss)
         
         total_loss.backward()
         raw_optimizer.step()
