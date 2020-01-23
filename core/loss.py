@@ -59,8 +59,8 @@ class CustomLoss(loss._WeightedLoss):
         if size_average is not None or reduce is not None:
             reduction = _Reduction.legacy_get_string(size_average, reduce)
         input_mod = torch.exp_(input)
-        input_mod2 = torch.mul_(input_mod, 0.5)
-        input_mod3 = torch.add_(input_mod2, 1)
+        input_mod2 = torch.mul(input_mod, 0.5)
+        input_mod3 = torch.add(input_mod2, 1)
         return F.nll_loss(F.log_softmax(input_mod3, 1), target, weight, size_average, ignore_index, reduce, reduction)
     
 #creterion = CrossEntropyLoss()
