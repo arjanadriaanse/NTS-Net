@@ -5,6 +5,7 @@ from torch.nn import DataParallel
 from config import BATCH_SIZE, PROPOSAL_NUM, test_model, experimentCSV
 from core import model, dataset
 from core.utils import progress_bar
+import numpy as np
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
 if not test_model:
