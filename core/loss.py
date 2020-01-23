@@ -39,7 +39,7 @@ class CustomLoss(loss._WeightedLoss):
         self.ignore_index = ignore_index
 
     def forward(self, input, target):
-        return self.softmax_cross_entropy_with_logits(input=input, target=target, weight=self.weight, ignore_index=self.ignore_index, reduction=self.reduction)
+        return self.cross_entropy_softmaxabs(input=input, target=target, weight=self.weight, ignore_index=self.ignore_index, reduction=self.reduction)
 
     
     def softmax_cross_entropy_with_logits(self, input, target, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean'):
