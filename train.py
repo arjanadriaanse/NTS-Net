@@ -30,8 +30,8 @@ if resume:
     net.load_state_dict(ckpt['net_state_dict'])
     start_epoch = ckpt['epoch'] + 1
 
-creterion = loss.CustomLoss()
-#creterion = torch.nn.CrossEntropyLoss()
+#creterion = loss.CustomLoss()
+creterion = torch.nn.CrossEntropyLoss()
 
 # define optimizers
 raw_parameters = list(net.pretrained_model.parameters())
@@ -78,7 +78,7 @@ for epoch in range(start_epoch, 500):
         
         #The model increases in accuracy less rapidly without the normalisation.
         #total_loss = (raw_loss + rank_loss + concat_loss + partcls_loss)/4
-        total_loss = raw_loss + (1 * concat_loss) + rank_loss + (1 * partcls_loss)
+        total_loss = raw_loss + (3 * concat_loss) + rank_loss + (3 * partcls_loss)
         
         total_loss.backward()
         raw_optimizer.step()
