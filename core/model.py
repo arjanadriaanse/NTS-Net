@@ -91,6 +91,6 @@ def ranking_loss(score, targets, proposal_num=PROPOSAL_NUM):
         targets_p = (targets > targets[:, i].unsqueeze(1)).type(torch.cuda.FloatTensor)
         pivot = score[:, i].unsqueeze(1)
         loss_p = (1 - pivot + score) * targets_p
-        loss_p = torch.sum(F.relu(loss_p))
+        loss_p = torch.sum(F.leaky_relu(loss_p))
         loss += loss_p
     return loss / batch_size
